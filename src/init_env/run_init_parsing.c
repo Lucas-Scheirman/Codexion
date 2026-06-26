@@ -26,7 +26,7 @@ int	run_init_parsing(char **argv, int *setting)
 			return (1);
 		}
 		number = ft_atoi(argv[i]);
-		if (number < 0 || is_length_number(argv[i], number) == 0)
+		if (number < 0)
 		{
 			error_log_parse(argv[i]);
 			return (1);

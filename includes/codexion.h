@@ -101,7 +101,6 @@ void				destroy_all_cond(t_env *env);
 
 int					ft_atoi(const char *nptr);
 int					is_number(char *str);
-int					is_length_number(char *str, int nb);
 long long			get_time_in_ms(void);
 void				wait_action(t_env *env, int ms);
 void				cooldown_sleep(long long released_at, int cooldown);
