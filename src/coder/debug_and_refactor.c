@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   release_dongles.c                                  :+:      :+:    :+:   */
+/*   debug_and_refactor.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lscheirm <lscheirm@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/25 05:57:33 by lscheirm          #+#    #+#             */
-/*   Updated: 2026/06/25 06:18:12 by lscheirm         ###   ########.fr       */
+/*   Created: 2026/06/26 01:50:53 by lscheirm          #+#    #+#             */
+/*   Updated: 2026/06/26 01:51:17 by lscheirm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	release_dongle(t_dongle *dongle)
+void	debug_and_refactor(t_coder *coder)
 {
-	pthread_mutex_lock(&dongle->lock);
-	dongle->is_taken = 0;
-	dongle->released_at = get_time_in_ms();
-	pthread_cond_broadcast(&dongle->cond);
-	pthread_mutex_unlock(&dongle->lock);
+	log_event(coder->env, coder->id, "is debugging");
+	wait_action(coder->env, coder->env->time_to_debug);
+	log_event(coder->env, coder->id, "is refactoring");
+	wait_action(coder->env, coder->env->time_to_refactor);
 }

@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_t_coders.c                                  :+:      :+:    :+:   */
+/*   run_action_coders.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lscheirm <lscheirm@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/25 05:57:33 by lscheirm          #+#    #+#             */
-/*   Updated: 2026/06/26 01:37:03 by lscheirm         ###   ########.fr       */
+/*   Updated: 2026/06/26 02:21:43 by lscheirm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	create_t_coders(t_env *env, pthread_t *thread_ids)
+void	*run_action_coders(void *arg)
 {
-	int	i;
+	t_coder		*coder;
+	t_dongle	*first;
+	t_dongle	*second;
 
-	i = 0;
-	while (i < env->nb_coders)
+	coder = (t_coder *)arg;
+	while (should_stop(coder->env) == 0)
 	{
-		if (pthread_create(&thread_ids[i], NULL, run_action_coders,
-				&env->coders[i]) != 0)
-			return (1);
-		i++;
+		choose_dongle(coder, &first, &second);
+		if (!take_dongle(first, coder))
+			return (NULL);
+		if (!take_dongle(second, coder))
+		{
+			release_dongle(first);
+			return (NULL);
+		}
+		compile(coder, first, second);
+		debug_and_refactor(coder);
 	}
-	return (0);
+	return (NULL);
 }

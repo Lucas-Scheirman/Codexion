@@ -6,7 +6,7 @@
 /*   By: lscheirm <lscheirm@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/25 05:57:33 by lscheirm          #+#    #+#             */
-/*   Updated: 2026/06/25 07:12:57 by lscheirm         ###   ########.fr       */
+/*   Updated: 2026/06/26 01:37:03 by lscheirm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef CODEXION_H
@@ -110,15 +110,18 @@ void				log_burnout(t_env *env, int coder_id);
 
 int					take_dongle(t_dongle *dongle, t_coder *coder);
 void				release_dongle(t_dongle *dongle);
+void				grant_dongle(t_dongle *dongle, int scheduler, int cooldown);
 int					request_is_priority(t_request *a, t_request *b,
 						int scheduler);
 void				heap_push(t_dongle *dongle, t_request req, int scheduler);
 t_request			heap_pop(t_dongle *dongle, int scheduler);
 int					should_stop(t_env *env);
 void				set_stop(t_env *env);
-void				action_coder(t_coder *coder, t_dongle *first,
-						t_dongle *second);
-void				*choose_dongle(void *arg);
+void				choose_dongle(t_coder *coder, t_dongle **first,
+						t_dongle **second);
+void				compile(t_coder *coder, t_dongle *first, t_dongle *second);
+void				debug_and_refactor(t_coder *coder);
+void				*run_action_coders(void *arg);
 void				*run_monitor_coders(void *arg);
 int					check_burnout(t_coder *coder);
 int					check_all_c_done(t_env *env);
