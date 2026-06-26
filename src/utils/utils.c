@@ -20,6 +20,11 @@ long long	get_time_in_ms(void)
 	return ((long long)tv.tv_sec * 1000 + (long long)tv.tv_usec / 1000);
 }
 
+long long	elapsed_since_start(t_env *env)
+{
+	return (get_time_in_ms() - env->start_time);
+}
+
 void	wait_action(t_env *env, int ms)
 {
 	long long	start;

@@ -16,15 +16,13 @@ void	log_event(t_env *env, int coder_id, char *msg)
 {
 	pthread_mutex_lock(&env->log_lock);
 	if (should_stop(env) == 0)
-		printf("%lld %d %s\n", get_time_in_ms() - env->start_time,
-			coder_id, msg);
+		printf("%lld %d %s\n", elapsed_since_start(env), coder_id, msg);
 	pthread_mutex_unlock(&env->log_lock);
 }
 
 void	log_burnout(t_env *env, int coder_id)
 {
 	pthread_mutex_lock(&env->log_lock);
-	printf("%lld %d burned out\n",
-		get_time_in_ms() - env->start_time, coder_id);
+	printf("%lld %d burned out\n", elapsed_since_start(env), coder_id);
 	pthread_mutex_unlock(&env->log_lock);
 }
