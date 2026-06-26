@@ -19,7 +19,7 @@ int	create_t_coders(t_env *env, pthread_t *thread_ids)
 	i = 0;
 	while (i < env->nb_coders)
 	{
-		if (pthread_create(&thread_ids[i], NULL, run_action_coders,
+		if (pthread_create(&thread_ids[i], NULL, run_coder,
 				&env->coders[i]) != 0)
 			return (1);
 		i++;

@@ -14,7 +14,7 @@
 
 int	create_t_monitor(t_env *env)
 {
-	if (pthread_create(&env->monitor_thread, NULL, run_monitor_coders,
+	if (pthread_create(&env->monitor_thread, NULL, run_monitor,
 			env) != 0)
 		return (1);
 	return (0);

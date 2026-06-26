@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_scheduler.c                                     :+:      :+:    :+:   */
+/*   parse_scheduler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lscheirm <lscheirm@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,23 +12,13 @@
 
 #include "codexion.h"
 
-static int	is_scheduler(char *arg, int *value)
+int	parse_scheduler(char *arg, int *value)
 {
 	if (strcmp(arg, "fifo") == 0)
 		*value = SCHED_FIFO;
 	else if (strcmp(arg, "edf") == 0)
 		*value = SCHED_EDF;
 	else
-		return (1);
-	return (0);
-}
-
-int	parse_scheduler(char *arg, int *value)
-{
-	if (is_scheduler(arg, value))
-	{
-		error_log_parse(arg);
-		return (1);
-	}
+		return (error_log_parse(arg), 1);
 	return (0);
 }

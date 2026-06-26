@@ -121,8 +121,8 @@ void				choose_dongle(t_coder *coder, t_dongle **first,
 						t_dongle **second);
 void				compile(t_coder *coder, t_dongle *first, t_dongle *second);
 void				debug_and_refactor(t_coder *coder);
-void				*run_action_coders(void *arg);
-void				*run_monitor_coders(void *arg);
+void				*run_coder(void *arg);
+void				*run_monitor(void *arg);
 int					check_burnout(t_coder *coder);
 int					check_all_c_done(t_env *env);
 

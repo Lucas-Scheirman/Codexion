@@ -1,42 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_monitoring_coders.c                            :+:      :+:    :+:   */
+/*   run_coder.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lscheirm <lscheirm@student.42belgium.be    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/25 05:57:33 by lscheirm          #+#    #+#             */
-/*   Updated: 2026/06/25 07:20:36 by lscheirm         ###   ########.fr       */
+/*   Updated: 2026/06/26 02:21:43 by lscheirm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	*run_monitor_coders(void *arg)
+void	*run_coder(void *arg)
 {
-	t_env	*env;
-	int		i;
+	t_coder		*coder;
+	t_dongle	*first;
+	t_dongle	*second;
 
-	env = (t_env *)arg;
-	while (should_stop(env) == 0)
+	coder = (t_coder *)arg;
+	while (should_stop(coder->env) == 0)
 	{
-		i = 0;
-		while (i < env->nb_coders)
+		choose_dongle(coder, &first, &second);
+		if (!take_dongle(first, coder))
+			return (NULL);
+		if (!take_dongle(second, coder))
 		{
-			if (check_burnout(&env->coders[i]))
-			{
-				set_stop(env);
-				log_burnout(env, env->coders[i].id);
-				return (NULL);
-			}
-			i++;
-		}
-		if (check_all_c_done(env))
-		{
-			set_stop(env);
+			release_dongle(first);
 			return (NULL);
 		}
-		usleep(500);
+		compile(coder, first, second);
+		debug_and_refactor(coder);
 	}
 	return (NULL);
 }
